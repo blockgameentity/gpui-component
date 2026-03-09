@@ -1,9 +1,4 @@
-use std::{
-    cell::Cell,
-    ops::Deref,
-    panic::Location,
-    rc::Rc,
-};
+use std::{cell::Cell, ops::Deref, panic::Location, rc::Rc};
 
 use instant::{Duration, Instant};
 
@@ -79,7 +74,7 @@ impl ScrollbarHandle for ScrollHandle {
     }
 
     fn content_size(&self) -> Size<Pixels> {
-        self.max_offset() + self.bounds().size
+        (self.max_offset() + self.bounds().size.into()).into()
     }
 }
 
@@ -94,7 +89,7 @@ impl ScrollbarHandle for UniformListScrollHandle {
 
     fn content_size(&self) -> Size<Pixels> {
         let base_handle = &self.0.borrow().base_handle;
-        base_handle.max_offset() + base_handle.bounds().size
+        (base_handle.max_offset() + base_handle.bounds().size.into()).into()
     }
 }
 
@@ -108,7 +103,7 @@ impl ScrollbarHandle for ListState {
     }
 
     fn content_size(&self) -> Size<Pixels> {
-        self.viewport_bounds().size + self.max_offset_for_scrollbar()
+        self.viewport_bounds().size + self.max_offset_for_scrollbar().into()
     }
 
     fn start_drag(&self) {
